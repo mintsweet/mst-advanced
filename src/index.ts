@@ -1,1 +1,1 @@
-export const test = () => console.log('test');
+export * from './define-request-store';
