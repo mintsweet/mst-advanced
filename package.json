@@ -16,7 +16,8 @@
     }
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "clean": "rm -rf dist & rm -rf types",
+    "build": "yarn clean && tsc && vite build",
     "lint": "eslint .",
     "prettier": "prettier . --write"
   },
@@ -38,7 +39,8 @@
     "vite": "^2.8.0"
   },
   "peerDependencies": {
-    "mobx-state-tree": "^5.1.3"
+    "mobx-state-tree": "^5.1.3",
+    "react": "^17.0.2"
   },
   "husky": {
     "hooks": {
