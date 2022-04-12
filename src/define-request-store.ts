@@ -1,4 +1,4 @@
-import { types, flow, toGenerator, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
+import { types, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
 
 export enum RequestStatus {
   IDLE = 'idle',
@@ -24,14 +24,12 @@ export const defineRequestStore = <
   onParams?: (t: Instance<IModelType<PROPS, OTHERS, CustomC, CustomS>>) => unknown;
   onSuccess?: (t: Instance<IModelType<PROPS, OTHERS, CustomC, CustomS>>, res: Response) => void;
 }) => {
-  return types
-    .compose(
-      model,
-      types.model({
-        status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.IDLE),
-      }),
-    )
-    .volatile(() => ({
+  return model
+    .props({
+      errMsg: types.maybe(types.frozen()),
+      status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.IDLE),
+    })
+    .volatile((t) => ({
       abortController: new AbortController(),
     }))
     .views((t) => ({
@@ -46,28 +44,36 @@ export const defineRequestStore = <
       },
     }))
     .actions((t) => ({
-      fetchData: flow(function* () {
-        t.status = RequestStatus.PENDING;
-        try {
-          let params;
-
-          // Request method extra parameters
-          if (onParams) {
-            params = onParams(t);
-          }
-
-          const res = yield* toGenerator(fetchData({ signal: t.abortController.signal, params }));
-
-          // Manual data processing
-          if (onSuccess) {
-            onSuccess(t, res);
-          }
-
-          t.status = RequestStatus.SUCCESS;
-        } catch (err) {
-          t.status = RequestStatus.ERROR;
+      onSuccess: (res: Response) => {
+        // Manual data processing
+        if (onSuccess) {
+          onSuccess(t, res);
         }
-      }),
+
+        t.status = RequestStatus.SUCCESS;
+      },
+      onError: (err: any) => {
+        t.errMsg = err;
+        t.status = RequestStatus.ERROR;
+      },
+    }))
+    .actions((t) => ({
+      fetchData: async () => {
+        t.status = RequestStatus.PENDING;
+        let params;
+
+        // Request method extra parameters
+        if (onParams) {
+          params = onParams(t);
+        }
+
+        try {
+          const res = await fetchData({ signal: t.abortController.signal, params });
+          t.onSuccess(res);
+        } catch (err) {
+          t.onError(err);
+        }
+      },
     }))
     .actions((t) => ({
       afterCreate() {
