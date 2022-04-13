@@ -1934,10 +1934,10 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-mints@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-mints/-/eslint-config-mints-2.0.0.tgz#0023c21b5cf0d64a2f5ccdeaf0340bae1ecbef8a"
-  integrity sha512-4cOpecyN6TUvnbKHqXrDc0OtYksfyFil40Vz1/GGn1+c4xPsYmjEzZzG2GZ/yKDhzEUJe2GmSk+AeKkXveL//A==
+eslint-config-mints@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-mints/-/eslint-config-mints-2.0.1.tgz#04684b31bec2cb49646bee4e4be464a6a42b371b"
+  integrity sha512-VkmCLqjeZGvuRnrCmOYvxM3/L4yo0kjKnuPpCDreln3We5vQx+SYJ3FtHyE2lZgtOaBV2IPR3YGBdYJyUcnxGw==
   dependencies:
     eslint-config-prettier "^8.5.0"
     eslint-config-react-app "^7.0.0"
