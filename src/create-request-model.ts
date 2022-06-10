@@ -22,7 +22,7 @@ export const createRequestModel = <
   onSuccess?: (t: Instance<typeof Model>, res: Response) => void;
 }) => {
   return Model.props({
-    errMsg: types.maybe(types.frozen()),
+    errMsg: types.maybeNull(types.frozen()),
     status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.PENDING),
   })
     .volatile(() => ({
