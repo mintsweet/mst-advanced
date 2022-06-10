@@ -1,6 +1,6 @@
-import { types, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
+import { types, flow, toGenerator, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
 
-export enum RequestStatus {
+enum RequestStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
   ERROR = 'error',
@@ -14,12 +14,12 @@ export const createRequestModel = <
   Response,
 >({
   Model,
-  fetchData,
-  onSuccess,
+  onQuery,
+  onResult,
 }: {
   Model: IModelType<PROPS, OTHERS, CustomC, CustomS>;
-  fetchData: (params: unknown, signal: AbortSignal) => Promise<Response>;
-  onSuccess?: (t: Instance<typeof Model>, res: Response) => void;
+  onQuery: (params: unknown, signal: AbortSignal) => Promise<Response>;
+  onResult: (t: Instance<typeof Model>, res: Response) => void;
 }) => {
   return Model.props({
     errMsg: types.maybeNull(types.frozen()),
@@ -37,25 +37,17 @@ export const createRequestModel = <
       },
     }))
     .actions((t) => ({
-      onSuccess: (res: Response) => {
-        onSuccess?.(t, res);
-        t.status = RequestStatus.SUCCESS;
-      },
-      onError: (err: any) => {
-        t.errMsg = err;
-        t.status = RequestStatus.ERROR;
-      },
-    }))
-    .actions((t) => ({
-      fetchData: async (params: unknown) => {
+      fetchData: flow(function* (params) {
         t.status = RequestStatus.PENDING;
         try {
-          const res = await fetchData(params, t.abortController.signal);
-          t.onSuccess(res);
+          const res = yield* toGenerator(onQuery(params, t.abortController.signal));
+          onResult(t, res);
+          t.status = RequestStatus.SUCCESS;
         } catch (err) {
-          t.onError(err);
+          t.errMsg = err;
+          t.status = RequestStatus.ERROR;
         }
-      },
+      }),
     }))
     .actions((t) => ({
       beforeDestroy() {
