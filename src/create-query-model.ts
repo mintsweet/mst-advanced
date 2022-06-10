@@ -6,7 +6,7 @@ enum RequestStatus {
   ERROR = 'error',
 }
 
-export const createRequestModel = <
+export const createQueryModel = <
   PROPS extends ModelProperties,
   OTHERS,
   CustomC,
