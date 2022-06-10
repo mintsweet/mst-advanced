@@ -4,18 +4,18 @@ import { isEqual } from 'lodash';
 
 import { useMst } from './use-mst';
 
-type IParams = Record<string, unknown>;
-
 export const useQuery = <PROPS extends ModelProperties, OTHERS, CustomC, CustomS>(
   Model: IModelType<PROPS, OTHERS, CustomC, CustomS>,
-  params?: IParams,
+  params?: unknown,
 ) => {
-  const prevParams = useRef<IParams>();
+  const prevParams = useRef<unknown>();
   const store = useMst(Model);
   const { fetchData } = store;
 
   useEffect(() => {
-    if (!isEqual(params, prevParams.current)) {
+    if (!params) {
+      fetchData();
+    } else if (!isEqual(params, prevParams.current)) {
       fetchData(params);
       prevParams.current = params;
     }
