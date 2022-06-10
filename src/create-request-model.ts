@@ -1,7 +1,6 @@
 import { types, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
 
 export enum RequestStatus {
-  IDLE = 'idle',
   PENDING = 'pending',
   SUCCESS = 'success',
   ERROR = 'error',
@@ -24,15 +23,12 @@ export const createRequestModel = <
 }) => {
   return Model.props({
     errMsg: types.maybe(types.frozen()),
-    status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.IDLE),
+    status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.PENDING),
   })
     .volatile(() => ({
       abortController: new AbortController(),
     }))
     .views((t) => ({
-      get ready() {
-        return t.status === RequestStatus.IDLE;
-      },
       get loading() {
         return t.status === RequestStatus.PENDING;
       },
