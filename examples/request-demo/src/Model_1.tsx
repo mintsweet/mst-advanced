@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { useMst } from 'mst-advanced';
+import { useQuery } from 'mst-advanced';
 
 import { Model1Store } from './models';
 
 const Model1 = observer(() => {
-  const { loading, error, data } = useMst(Model1Store);
+  const { loading, error, data } = useQuery(Model1Store, { paeg: 1 });
 
   if (loading) {
     return <div>Loading...</div>;
@@ -17,11 +17,4 @@ const Model1 = observer(() => {
   return <div>{data?.name}</div>;
 });
 
-export default () => {
-  return (
-    <div>
-      <h2>Model 1</h2>
-      <Model1 />
-    </div>
-  );
-};
+export default Model1;

@@ -1,5 +1,5 @@
 import { types } from 'mobx-state-tree';
-import { defineRequestStore } from 'mst-advanced';
+import { createQueryModel } from 'mst-advanced';
 
 import { getMockData, getMockError, Response } from './api';
 
@@ -17,20 +17,18 @@ const CommonModel = types.model({
   ),
 });
 
-export const Model1Store = defineRequestStore({
-  model: CommonModel,
-  fetchData: getMockData,
-  onParams: (t) => t.params,
-  onSuccess: (t, res: Response) => {
+export const Model1Store = createQueryModel({
+  Model: CommonModel,
+  onQuery: getMockData,
+  onResult: (t, res: Response) => {
     t.data = res;
   },
 });
 
-export const Model2Store = defineRequestStore({
-  model: CommonModel,
-  fetchData: getMockError,
-  onParams: (t) => t.params,
-  onSuccess: (t, res: Response) => {
+export const Model2Store = createQueryModel({
+  Model: CommonModel,
+  onQuery: getMockError,
+  onResult: (t, res: Response) => {
     t.data = res;
   },
 });
