@@ -1,6 +1,6 @@
 import { types, flow, toGenerator, ModelProperties, IModelType, Instance } from 'mobx-state-tree';
 
-enum RequestStatus {
+export enum RequestStatus {
   PENDING = 'pending',
   SUCCESS = 'success',
   ERROR = 'error',
