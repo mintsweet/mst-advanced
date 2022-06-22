@@ -5,6 +5,8 @@
   ],
   "scripts": {
     "postinstall": "husky install",
+    "main": "yarn workspace mst-advanced",
+    "demo": "yarn workspace request-demo",
     "lint": "eslint . --fix",
     "prettier": "prettier . --write"
   },
