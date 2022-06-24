@@ -3,11 +3,9 @@ import { types, destroy } from 'mobx-state-tree';
 
 import { createQueryModel, RequestStatus } from '../src';
 
-const onQuery = jest.fn().mockReturnValue(
-  Promise.resolve({
-    name: 'Test',
-  }),
-);
+const onQuery = jest.fn().mockResolvedValue({
+  name: 'Test',
+});
 
 const Model = createQueryModel({
   Model: types.model({
@@ -48,7 +46,7 @@ describe('create-query-model', () => {
     });
 
     it('should update `status` after fetch error', async () => {
-      onQuery.mockReturnValueOnce(Promise.reject('Fetch Error'));
+      onQuery.mockRejectedValue('Fetch Error');
       model.fetchData();
       await when(() => model.status === RequestStatus.ERROR);
       expect(model.errMsg).toBe('Fetch Error');
