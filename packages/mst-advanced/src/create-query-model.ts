@@ -18,7 +18,7 @@ export const createQueryModel = <
   onResult,
 }: {
   Model: IModelType<PROPS, OTHERS, CustomC, CustomS>;
-  onQuery: (params: unknown, signal: AbortSignal) => Promise<Response>;
+  onQuery: (signal: AbortSignal, params?: unknown) => Promise<Response>;
   onResult: (t: Instance<typeof Model>, res: Response) => void;
 }) => {
   return Model.props({
@@ -37,10 +37,10 @@ export const createQueryModel = <
       },
     }))
     .actions((t) => ({
-      fetchData: flow(function* (params) {
+      fetchData: flow(function* (params?) {
         t.status = RequestStatus.PENDING;
         try {
-          const res = yield* toGenerator(onQuery(params, t.abortController.signal));
+          const res = yield* toGenerator(onQuery(t.abortController.signal, params));
           onResult(t, res);
           t.status = RequestStatus.SUCCESS;
         } catch (err) {

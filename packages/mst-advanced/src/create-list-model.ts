@@ -6,10 +6,15 @@ export const createListModel = <PROPS extends ModelProperties, OTHERS, CustomC, 
   Item,
   onQuery,
   onResult,
+  feildName = 'data',
 }: {
   Item: IModelType<PROPS, OTHERS, CustomC, CustomS>;
-  onQuery: (params: unknown, signal: AbortSignal) => Promise<{ total: number; data: any[] }>;
+  onQuery: (
+    signal: AbortSignal,
+    params?: unknown,
+  ) => Promise<{ total: number } & { [key: string]: any[] }>;
   onResult?: (item: any) => void;
+  feildName?: string;
 }) => {
   return createQueryModel({
     Model: types.model({
@@ -19,7 +24,7 @@ export const createListModel = <PROPS extends ModelProperties, OTHERS, CustomC, 
     onQuery,
     onResult: (t, res) => {
       t.total = res.total;
-      t.items = cast(res.data.map((i) => onResult?.(i) ?? i));
+      t.items = cast(res[`${feildName}`].map((i) => onResult?.(i) ?? i));
     },
   });
 };
