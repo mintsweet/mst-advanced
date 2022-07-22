@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "husky install",
     "main": "yarn workspace mst-advanced",
-    "demo": "yarn workspace request-demo",
+    "demo": "yarn workspace mst-advanced-demo",
     "lint": "eslint . --fix",
     "prettier": "prettier . --write"
   },
