@@ -9,10 +9,7 @@ export const createListModel = <PROPS extends ModelProperties, OTHERS, CustomC, 
   feildName = 'data',
 }: {
   Item: IModelType<PROPS, OTHERS, CustomC, CustomS>;
-  onQuery: (
-    signal: AbortSignal,
-    params?: unknown,
-  ) => Promise<{ total: number } & { [key: string]: any[] }>;
+  onQuery: (signal: AbortSignal, params?: unknown) => Promise<any>;
   onResult?: (item: any) => void;
   feildName?: string;
 }) => {
@@ -24,7 +21,7 @@ export const createListModel = <PROPS extends ModelProperties, OTHERS, CustomC, 
     onQuery,
     onResult: (t, res) => {
       t.total = res.total;
-      t.items = cast(res[`${feildName}`].map((i) => onResult?.(i) ?? i));
+      t.items = cast(res[`${feildName}`].map((i: any) => onResult?.(i) ?? i));
     },
   });
 };
