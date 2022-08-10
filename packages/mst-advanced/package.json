@@ -1,7 +1,7 @@
 {
   "name": "mst-advanced",
-  "description": "",
-  "version": "0.0.1",
+  "description": "advanced model for mst",
+  "version": "1.0.0",
   "files": [
     "dist",
     "types"
@@ -18,7 +18,8 @@
   "scripts": {
     "test": "jest",
     "clean": "rm -rf dist & rm -rf types",
-    "build": "yarn test && yarn clean && tsc && vite build"
+    "build": "yarn test && yarn clean && tsc && vite build",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^28.1.3",
