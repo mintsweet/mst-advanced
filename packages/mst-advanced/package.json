@@ -1,20 +1,20 @@
 {
   "name": "mst-advanced",
-  "description": "advanced model for mst",
   "version": "1.0.0",
+  "keywords": [
+    "mobx",
+    "mobx-state-tree",
+    "mst",
+    "advanced"
+  ],
+  "description": "advanced model for mst",
   "files": [
     "dist",
     "types"
   ],
   "types": "./types/index.d.ts",
-  "main": "./dist/mst-advanced.umd.js",
-  "module": "./dist/mst-advanced.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/mst-advanced.es.js",
-      "require": "./dist/mst-advanced.umd.js"
-    }
-  },
+  "main": "./dist/index.es.js",
+  "license": "MIT",
   "scripts": {
     "test": "jest",
     "clean": "rm -rf dist & rm -rf types",
