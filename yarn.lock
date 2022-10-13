@@ -3839,14 +3839,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-mints@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "eslint-config-mints@npm:2.0.2"
+"eslint-config-mints@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "eslint-config-mints@npm:2.0.3"
   dependencies:
     eslint-config-prettier: ^8.5.0
     eslint-config-react-app: ^7.0.0
     eslint-plugin-prettier: ^4.0.0
-  checksum: 5fc1fdad67e66191f5d360c78055877149f4f3f8a26e740a2890e71ee9c2cada2481d394bdea2643f351d0512d0d460f325419029de1f24818dec269922cda27
+  checksum: b72f9c9ba4a5499300e1055e36355a21880931bbb37e671462f5062055efbe5d681e863a3149036dd45315735739625c387501c783369f5bdf15ef41f504324c
   languageName: node
   linkType: hard
 
@@ -6850,7 +6850,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     eslint: ^8.17.0
-    eslint-config-mints: ^2.0.2
+    eslint-config-mints: ^2.0.3
     husky: ^8.0.1
     lint-staged: ^13.0.1
     prettier: ^2.6.2
