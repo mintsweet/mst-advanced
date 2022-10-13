@@ -11,6 +11,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './src/index.ts'),
       name: 'mst-advanced',
+      fileName: (format) => `index.${format}.js`,
+      formats: ['es'],
     },
     rollupOptions: {
       external: [...Object.keys(peerDependencies)],
