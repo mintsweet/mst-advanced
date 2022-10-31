@@ -1,3 +1,9 @@
+## 1.0.1
+
+`2022-10-31`
+
+- Fix the signal parameter is invalid.
+
 ## 1.0.0
 
 `2022-07-22`

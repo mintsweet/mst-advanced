@@ -1,6 +1,6 @@
 {
   "name": "mst-advanced",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "mobx",
     "mobx-state-tree",
