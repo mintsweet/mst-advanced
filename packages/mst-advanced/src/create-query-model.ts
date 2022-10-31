@@ -25,9 +25,6 @@ export const createQueryModel = <
     errMsg: types.maybeNull(types.frozen()),
     status: types.optional(types.enumeration(Object.values(RequestStatus)), RequestStatus.PENDING),
   })
-    .volatile(() => ({
-      abortController: new AbortController(),
-    }))
     .views((t) => ({
       get loading() {
         return t.status === RequestStatus.PENDING;
@@ -37,10 +34,10 @@ export const createQueryModel = <
       },
     }))
     .actions((t) => ({
-      fetchData: flow(function* (params?) {
+      fetchData: flow(function* (signal: AbortSignal, params?) {
         t.status = RequestStatus.PENDING;
         try {
-          const res = yield* toGenerator(onQuery(t.abortController.signal, params));
+          const res = yield* toGenerator(onQuery(signal, params));
           onResult(t, res);
           t.status = RequestStatus.SUCCESS;
         } catch (err) {
@@ -48,10 +45,5 @@ export const createQueryModel = <
           t.status = RequestStatus.ERROR;
         }
       }),
-    }))
-    .actions((t) => ({
-      beforeDestroy() {
-        t.abortController.abort();
-      },
     }));
 };

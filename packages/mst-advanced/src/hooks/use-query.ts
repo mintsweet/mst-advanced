@@ -8,18 +8,30 @@ export const useQuery = <PROPS extends ModelProperties, OTHERS, CustomC, CustomS
   Model: IModelType<PROPS, OTHERS, CustomC, CustomS>,
   params?: unknown,
 ) => {
-  const prevParams = useRef<unknown>();
+  const ref = useRef<{
+    params?: unknown;
+    abortController?: AbortController;
+  }>({
+    params: {},
+  });
+
   const store = useMst(Model);
   const { fetchData } = store;
 
   useEffect(() => {
-    if (!params) {
-      fetchData();
-    } else if (!isEqual(params, prevParams.current)) {
-      fetchData(params);
-      prevParams.current = params;
+    return () => {
+      ref.current.abortController?.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isEqual(params, ref.current.params)) {
+      ref.current.params = params;
+      ref.current.abortController?.abort();
+      ref.current.abortController = new AbortController();
+      fetchData(ref.current.abortController.signal, ref.current.params);
     }
-  }, [params, prevParams, fetchData]);
+  }, [params]);
 
   return store;
 };

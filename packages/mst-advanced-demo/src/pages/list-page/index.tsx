@@ -10,6 +10,7 @@ const Store = createListModel({
   }),
   onQuery: (signal: AbortSignal, params: any) => {
     console.log(signal, params);
+    signal.addEventListener('abort', () => console.log(1));
     return new Promise<{ total: number; data: Array<{ id: number; name: string }> }>((resolve) =>
       setTimeout(() => {
         resolve({
@@ -25,7 +26,7 @@ const Store = createListModel({
             },
           ],
         });
-      }, 1000),
+      }, 3000),
     );
   },
   onResult: (item) => ({
