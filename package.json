@@ -8,10 +8,11 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "main": "yarn workspace mst-advanced",
-    "demo": "yarn workspace mst-advanced-demo",
     "lint": "eslint . --fix",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "start": "yarn workspace mst-advanced-demo dev",
+    "build": "yarn workspace mst-advanced build",
+    "publish": "yarn workspace mst-advanced npm publish"
   },
   "lint-staged": {
     "*.{js,ts}": [
