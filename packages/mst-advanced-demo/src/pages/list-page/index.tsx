@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { types } from 'mobx-state-tree';
 import { createListModel, useQuery } from 'mst-advanced';
@@ -7,8 +8,9 @@ const Store = createListModel({
     id: types.number,
     name: types.string,
   }),
-  onQuery: (signal: AbortSignal, params: any) =>
-    new Promise<{ total: number; data: Array<{ id: number; name: string }> }>((resolve) =>
+  onQuery: (signal: AbortSignal, params: any) => {
+    console.log(signal, params);
+    return new Promise<{ total: number; data: Array<{ id: number; name: string }> }>((resolve) =>
       setTimeout(() => {
         resolve({
           total: 2,
@@ -24,7 +26,8 @@ const Store = createListModel({
           ],
         });
       }, 1000),
-    ),
+    );
+  },
   onResult: (item) => ({
     id: item.id,
     name: item.name,
@@ -32,25 +35,31 @@ const Store = createListModel({
 });
 
 export const ListPage = observer(() => {
-  const { loading, error, items } = useQuery(Store);
+  const [page, setPage] = useState(1);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Something Error.</div>;
-  }
+  const { loading, error, items } = useQuery(Store, {
+    page,
+  });
 
   return (
-    <ul>
-      {items.map((it) => (
-        <li key={it.id}>
-          <span>ID: {it.id}</span>
-          <span> | </span>
-          <span>Name: {it.name}</span>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <div onClick={() => setPage(page + 1)}>change params</div>
+
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Something Error.</div>
+      ) : (
+        <ul>
+          {items.map((it) => (
+            <li key={it.id}>
+              <span>ID: {it.id}</span>
+              <span> | </span>
+              <span>Name: {it.name}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 });

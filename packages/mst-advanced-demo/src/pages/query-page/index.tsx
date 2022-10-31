@@ -6,12 +6,14 @@ const Store = createQueryModel({
   Model: types.model({
     name: types.maybeNull(types.string),
   }),
-  onQuery: (signal: AbortSignal, params: any) =>
-    new Promise<{ name: string }>((resolve) =>
+  onQuery: (signal: AbortSignal, params: any) => {
+    console.log(signal, params);
+    return new Promise<{ name: string }>((resolve) =>
       setTimeout(() => {
         resolve({ name: 'hello world!' });
       }, 1000),
-    ),
+    );
+  },
   onResult: (t, res: { name: string }) => {
     t.name = res.name;
   },
