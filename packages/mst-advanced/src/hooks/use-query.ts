@@ -29,7 +29,7 @@ export const useQuery = <PROPS extends ModelProperties, OTHERS, CustomC, CustomS
       ref.current.params = params;
       ref.current.abortController?.abort();
       ref.current.abortController = new AbortController();
-      fetchData(ref.current.abortController.signal, ref.current.params);
+      fetchData(ref.current.params, ref.current.abortController.signal);
     }
   }, [params]);
 
